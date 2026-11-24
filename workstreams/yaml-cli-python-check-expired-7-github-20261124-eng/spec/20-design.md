@@ -1,7 +1,7 @@
 ---
 schema: 1
 spec_stage: design
-status: approval_pending
+status: approved
 owner_role: architects
 traces_to:
   - requirements
@@ -11,6 +11,8 @@ upstream_hashes:
   behaviour-spec: "1545a144098fb0c8896e991ecf72219123b97de9"
 approved_content_hash: 277ed8baec450872dcb39f142b40a10a4a3c0dd1
 version: 2
+approved_at: '2026-11-24T12:19:34Z'
+approved_by: ai-prosto
 ---
 
 # Design — Реестр прав агентов (локальный YAML + CLI на Python)

@@ -229,14 +229,57 @@ def parse_invocation(argv: list[str]) -> Invocation:
     return Invocation(command=command, args=args, file=file)
 
 
+EXPIRY_WINDOW_DAYS = 7
+
+
+def run_check(
+    permissions: list[Permission], args: tuple[str, ...], today: datetime.date
+) -> int:
+    agent, action, resource = args
+    matching = [
+        p
+        for p in permissions
+        if (p.agent, p.action, p.resource) == (agent, action, resource)
+    ]
+    for p in matching:
+        if p.until >= today:
+            print(f"разрешено: выдал {p.granted_by}, до {p.until.isoformat()}")
+            return 0
+    reason = "срок истёк" if matching else "записи нет"
+    print(f"запрещено: {reason}")
+    return 1
+
+
+def _format_row(p: Permission) -> str:
+    return (
+        f"  агент: {p.agent}; ресурс: {p.resource}; действие: {p.action}; "
+        f"выдал: {p.granted_by}; до: {p.until.isoformat()}"
+    )
+
+
+def run_expired(permissions: list[Permission], today: datetime.date) -> int:
+    limit = today + datetime.timedelta(days=EXPIRY_WINDOW_DAYS)
+    overdue = [p for p in permissions if p.until < today]
+    soon = [p for p in permissions if today <= p.until <= limit]
+    lines = ["Просроченные:"]
+    lines += [_format_row(p) for p in overdue] or ["  (нет)"]
+    lines += ["", f"Истекающие в ближайшие {EXPIRY_WINDOW_DAYS} дней:"]
+    lines += [_format_row(p) for p in soon] or ["  (нет)"]
+    print("\n".join(lines))
+    return 0
+
+
 def main(argv: list[str]) -> int:
     try:
         invocation = parse_invocation(argv)
         if invocation.help:
             print(HELP, end="")
             return 0
-        load_registry(invocation.file)
-        raise UsageError("команда ещё не реализована")
+        permissions = load_registry(invocation.file)
+        today = datetime.date.today()
+        if invocation.command == "check":
+            return run_check(permissions, invocation.args, today)
+        return run_expired(permissions, today)
     except (UsageError, RegistryError) as failure:
         print(str(failure).replace("\n", " "), file=sys.stderr)
         return 2

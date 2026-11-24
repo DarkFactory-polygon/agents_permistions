@@ -274,7 +274,7 @@ Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-
 **Traces to:** [FR-03], [FR-05], [NFR-02], [NFR-04]
 
 ### TASK-003: Источник данных и равнозначные формы даты
-P2 | TODO   Est: 0.5d
+P2 | 🔄 IN_PROGRESS   Est: 0.5d
 
 Реализовать сценарии BEH-19, BEH-21 (DT-03, группа commands).
 Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-decomposition.md#DT-03

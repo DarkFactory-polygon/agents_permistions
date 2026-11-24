@@ -1,7 +1,12 @@
 """Реестр прав агентов: проверка права и список истекающих прав."""
 
+import datetime
+import re
 import sys
 from dataclasses import dataclass
+from pathlib import Path
+
+import yaml
 
 DEFAULT_FILE = "permissions.yaml"
 
@@ -36,6 +41,149 @@ HELP = f"""\
 
 class UsageError(Exception):
     """Неверный вызов; несёт готовое сообщение."""
+
+
+class RegistryError(Exception):
+    """Отказ по файлу или записи реестра; несёт готовое сообщение с местом ошибки."""
+
+
+TEXT_FIELDS = ("agent", "resource", "action", "granted_by")
+REQUIRED_FIELDS = ("agent", "resource", "action", "granted_by", "until")
+DATE_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
+
+
+@dataclass(frozen=True)
+class Permission:
+    agent: str
+    resource: str
+    action: str
+    granted_by: str
+    until: datetime.date
+    index: int
+
+
+class _RegistryLoader(yaml.SafeLoader):
+    """SafeLoader, не падающий на невозможной дате: оставляет сырую строку для проверки записи."""
+
+
+def _construct_timestamp(loader: yaml.SafeLoader, node: yaml.Node):
+    try:
+        return yaml.SafeLoader.construct_yaml_timestamp(loader, node)
+    except ValueError:
+        return loader.construct_scalar(node)
+
+
+_RegistryLoader.add_constructor("tag:yaml.org,2002:timestamp", _construct_timestamp)
+
+
+def _shape(value: object) -> str:
+    if value is None:
+        return "пусто"
+    if isinstance(value, dict):
+        return "маппинг"
+    if isinstance(value, list):
+        return "список"
+    return f"{type(value).__name__}"
+
+
+def _kind(value: object) -> str:
+    if isinstance(value, bool):
+        return "логическое значение"
+    if value is None:
+        return "пустое значение (null)"
+    if isinstance(value, int | float):
+        return "число"
+    if isinstance(value, datetime.datetime | datetime.date):
+        return "дата"
+    return type(value).__name__
+
+
+def _parse_until(value: object, where: str) -> datetime.date:
+    if isinstance(value, datetime.datetime):
+        raise RegistryError(
+            f"{where}: поле until содержит дату со временем, нужна дата YYYY-MM-DD"
+        )
+    if isinstance(value, datetime.date):
+        return value
+    if isinstance(value, str) and DATE_RE.fullmatch(value):
+        try:
+            return datetime.date.fromisoformat(value)
+        except ValueError:
+            pass
+    shown = "пусто" if value is None else repr(value)
+    raise RegistryError(
+        f"{where}: поле until не календарная дата YYYY-MM-DD (значение: {shown})"
+    )
+
+
+def _validate_entry(raw: object, index: int, path: str) -> Permission:
+    where = f"{path}: запись {index}"
+    if not isinstance(raw, dict):
+        raise RegistryError(f"{where} не маппинг (найдено: {_shape(raw)})")
+    for field in REQUIRED_FIELDS:
+        if field not in raw:
+            raise RegistryError(f"{where}: нет обязательного поля {field}")
+    for field in TEXT_FIELDS:
+        if not isinstance(raw[field], str):
+            raise RegistryError(
+                f"{where}: поле {field} прочитано не как строка ({_kind(raw[field])}); "
+                f"возьмите значение в кавычки"
+            )
+    return Permission(
+        agent=raw["agent"],
+        resource=raw["resource"],
+        action=raw["action"],
+        granted_by=raw["granted_by"],
+        until=_parse_until(raw["until"], where),
+        index=index,
+    )
+
+
+def load_registry(path: str) -> list[Permission]:
+    """Читает и полностью проверяет реестр: весь список либо отказ на первой неверной записи."""
+    try:
+        text = Path(path).read_text(encoding="utf-8")
+    except FileNotFoundError:
+        raise RegistryError(f"{path}: файла реестра нет") from None
+    except (OSError, UnicodeDecodeError) as failure:
+        raise RegistryError(
+            f"{path}: файл не читается ({type(failure).__name__})"
+        ) from None
+    try:
+        data = yaml.load(text, Loader=_RegistryLoader)
+    except yaml.YAMLError as failure:
+        mark = getattr(failure, "problem_mark", None)
+        place = (
+            f"строка {mark.line + 1}, столбец {mark.column + 1}"
+            if mark
+            else "место не названо"
+        )
+        problem = getattr(failure, "problem", None) or "ошибка разбора YAML"
+        raise RegistryError(
+            f"{path}: YAML не разбирается ({place}): {problem}"
+        ) from None
+    if data is None:
+        return []
+    if not isinstance(data, dict):
+        raise RegistryError(
+            f"{path}: верхний уровень должен быть маппингом с ключом permissions "
+            f"(найдено: {_shape(data)})"
+        )
+    if not data:
+        return []
+    if "permissions" not in data:
+        raise RegistryError(
+            f"{path}: нет ключа permissions (найдены ключи: "
+            f"{', '.join(map(str, data))})"
+        )
+    entries = data["permissions"]
+    if entries is None:
+        return []
+    if not isinstance(entries, list):
+        raise RegistryError(
+            f"{path}: permissions должен быть списком записей (найдено: {_shape(entries)})"
+        )
+    return [_validate_entry(raw, i, path) for i, raw in enumerate(entries, start=1)]
 
 
 @dataclass(frozen=True)
@@ -87,8 +235,9 @@ def main(argv: list[str]) -> int:
         if invocation.help:
             print(HELP, end="")
             return 0
+        load_registry(invocation.file)
         raise UsageError("команда ещё не реализована")
-    except UsageError as failure:
+    except (UsageError, RegistryError) as failure:
         print(str(failure).replace("\n", " "), file=sys.stderr)
         return 2
     except Exception as failure:  # noqa: BLE001 — fail-closed: без трассировки, одна строка

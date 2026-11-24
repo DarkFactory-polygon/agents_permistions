@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 CLI = Path(__file__).resolve().parent.parent / "permissions_cli.py"
+sys.path.insert(0, str(CLI.parent))
 
 
 def days_from_today(delta: int) -> datetime.date:

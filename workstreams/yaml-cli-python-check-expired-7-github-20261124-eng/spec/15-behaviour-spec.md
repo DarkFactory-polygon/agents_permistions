@@ -1,7 +1,7 @@
 ---
 schema: 1
 spec_stage: behaviour-spec
-status: approval_pending
+status: approved
 owner_role: product
 traces_to:
   - requirements
@@ -9,6 +9,8 @@ upstream_hashes:
   requirements: "904ec1e0fb83d565efadf57885f3e1c0dc56c611"
 approved_content_hash: 62b694584d5af75a665909c4086c70acbb4e2380
 version: 2
+approved_at: '2026-11-24T11:51:23Z'
+approved_by: ai-prosto
 ---
 
 # Behaviour Spec — Реестр прав агентов (локальный YAML + CLI на Python)

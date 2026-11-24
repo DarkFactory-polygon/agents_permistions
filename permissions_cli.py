@@ -288,6 +288,11 @@ def run_expired(permissions: list[Permission], today: datetime.date) -> int:
     return 0
 
 
+def today() -> datetime.date:
+    """Шов даты: единственное место, где читается текущая локальная дата."""
+    return datetime.date.today()
+
+
 def main(argv: list[str]) -> int:
     try:
         invocation = parse_invocation(argv)
@@ -295,10 +300,10 @@ def main(argv: list[str]) -> int:
             print(HELP, end="")
             return 0
         permissions = load_registry(invocation.file)
-        today = datetime.date.today()
+        current = today()
         if invocation.command == "check":
-            return run_check(permissions, invocation.args, today)
-        return run_expired(permissions, today)
+            return run_check(permissions, invocation.args, current)
+        return run_expired(permissions, current)
     except (UsageError, RegistryError) as failure:
         print(str(failure).replace("\n", " "), file=sys.stderr)
         return 2

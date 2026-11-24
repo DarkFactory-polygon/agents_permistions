@@ -360,7 +360,7 @@ Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-
 **Traces to:** [FR-06], [NFR-08], [NFR-09], [NFR-11]
 
 ### TASK-008: Повторяемость, только чтение, смена даты
-P2 | TODO   Est: 0.5d
+P2 | 🔄 IN_PROGRESS   Est: 0.5d
 
 Реализовать сценарии BEH-22, BEH-23, BEH-25 (DT-08, группа guarantees).
 Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-decomposition.md#DT-08

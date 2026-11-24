@@ -392,7 +392,7 @@ Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-
 **Traces to:** [NFR-05]
 
 ### TASK-010: Среда запуска и состав зависимостей
-P2 | TODO   Est: 0.5d
+P2 | 🔄 IN_PROGRESS   Est: 0.5d
 
 Реализовать сценарии BEH-27 (DT-10, группа guarantees).
 Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-decomposition.md#DT-10

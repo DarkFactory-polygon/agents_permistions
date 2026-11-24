@@ -1,0 +1,102 @@
+{
+  "absence": [],
+  "attempt_id": "f34f02ec5f1c42d580289c09d68376cc",
+  "bases": [
+    {
+      "path": "00-discovery/brief.md",
+      "role": "engineer-brief",
+      "sha256": "ac4db8ddd44ca844de628ab325644c71483ccc1a69071bce7c292fad836d31a9",
+      "size": 3654
+    }
+  ],
+  "check_identity": "8ea838626d232623a000b5feb1712181d839291cfd8c02026075f6988a4bd2cd",
+  "context": {
+    "estimate_tokens": 11665,
+    "limit_tokens": 120000,
+    "method": "utf8-bytes/4",
+    "reserve_tokens": 8000,
+    "size": 46660,
+    "unit": "utf8-bytes"
+  },
+  "criteria": [
+    {
+      "id": "R1",
+      "reason": "Все уточнения инженерного брифа (CON-01…CON-03, S-01…S-04, IF-01…IF-03, AP-01/AP-02, RK-01…RK-03, Q-01, X-01…X-04) имеют адресное отражение в charter; найдено лишь совещательное замечание о неполной приёмке FR-03.",
+      "status": "pass"
+    },
+    {
+      "id": "R2",
+      "reason": "Ни одно положение charter не расходится с инженерным брифом: стек, запреты сети и записи, определение «сегодня», код выхода expired, потребитель и параметр --file совпадают; замечание носит совещательный характер.",
+      "status": "pass"
+    }
+  ],
+  "edge": "charter-vs-engineer-brief",
+  "findings": [
+    {
+      "class": "minor",
+      "location": {
+        "lines": [
+          151,
+          154
+        ],
+        "path": "00-charter.md"
+      },
+      "rule_id": "R1",
+      "statement": "Приёмка FR-03 перечисляет сломанный YAML, отсутствующее поле и неверную дату, но не содержит случая на типизацию YAML (даты как строка, yes/no как логическое значение), хотя `charter#RK-05` (строки 489–491, из RK-01 инженерного брифа) прямо обязывает FR-03 ловить такие случаи; уточнение отражено, но не доведено до проверяемого критерия."
+    },
+    {
+      "class": "minor",
+      "location": {
+        "lines": [
+          580,
+          582
+        ],
+        "path": "00-charter.md"
+      },
+      "rule_id": "R2",
+      "statement": "Заключительный абзац раздела «Покрытие источников» утверждает, что «Противоречий с инженерным брифом charter не содержит» — это вывод проверки, а не содержание документа; как самоаттестация он не является подтверждением соответствия и учитывается лишь как замечание."
+    }
+  ],
+  "finished_at": "2026-11-24T11:06:44.492745+00:00",
+  "node": "charter",
+  "result_key": "c40e0033658b608aeead0d8bba942543ef4a8ede1e831b4a811e2be034e8b870",
+  "reviewer": {
+    "effort": null,
+    "env_passthrough": [
+      "ANTHROPIC_BASE_URL",
+      "HOME",
+      "PATH",
+      "TMPDIR",
+      "USER"
+    ],
+    "harness": "claude",
+    "harness_version": "2.1.330 (Claude Code)",
+    "model": "claude-opus-5",
+    "model_id": null
+  },
+  "rules": {
+    "id": "charter-vs-engineer-brief",
+    "items": [
+      [
+        "R1",
+        "Уточнения инженерного брифа (ограничения реализации, границы) отражены в charter."
+      ],
+      [
+        "R2",
+        "Charter не противоречит инженерному брифу."
+      ]
+    ]
+  },
+  "schema_version": 1,
+  "started_at": "2026-11-24T11:04:12.102251+00:00",
+  "subject": [
+    {
+      "path": "00-charter.md",
+      "role": "subject",
+      "sha256": "c9038e8814df5cef33d515a44c54c3e130baa079b1b6d36f9d88bb6a86a3217f",
+      "size": 38853
+    }
+  ],
+  "verdict": "PASS",
+  "wave": 1
+}

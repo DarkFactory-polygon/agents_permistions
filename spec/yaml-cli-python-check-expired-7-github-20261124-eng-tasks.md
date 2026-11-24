@@ -255,7 +255,7 @@ Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-
 **Traces to:** [FR-04], [NFR-12], [NFR-13]
 
 ### TASK-002: Загрузка и полная проверка реестра
-P2 | TODO   Est: 0.5d
+P2 | 🔄 IN_PROGRESS   Est: 0.5d
 
 Реализовать сценарии BEH-11, BEH-12, BEH-13, BEH-14 (DT-02, группа solo).
 Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-decomposition.md#DT-02

@@ -238,7 +238,7 @@ Python и не имеет конструкторов, обращающихся �
 - **AC-17** (test): Удобство вызова, справка, скорость и читаемость вывода
 
 ### TASK-001: Каркас вызова, справка и конверт отказа
-P2 | TODO   Est: 0.5d
+P2 | 🔄 IN_PROGRESS   Est: 0.5d
 
 Реализовать сценарии BEH-18, BEH-20 (DT-01, группа solo).
 Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-decomposition.md#DT-01

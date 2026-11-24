@@ -1,0 +1,162 @@
+{
+  "absence": [],
+  "attempt_id": "6e4c4a3a068545bbac4afd03c10c82f7",
+  "bases": [
+    {
+      "path": "10-requirements.md",
+      "role": "requirements",
+      "sha256": "3c862e9891ddcca63fc603a23d0e5cfc2b29d308c1f7723bb5f5c730d03ab24e",
+      "size": 41714
+    },
+    {
+      "path": "15-behaviour-spec.md",
+      "role": "behaviour-spec",
+      "sha256": "9248d0fc2399b0f307518b2c98e08dc459bef43e314ded2b1e886aa46a56d4bb",
+      "size": 47435
+    }
+  ],
+  "check_identity": "e6a766851b1a1bf147215c956a3332dee23a68f0065da8928635e7466ab339c9",
+  "context": {
+    "estimate_tokens": 33697,
+    "limit_tokens": 120000,
+    "method": "utf8-bytes/4",
+    "reserve_tokens": 8000,
+    "size": 134790,
+    "unit": "utf8-bytes"
+  },
+  "criteria": [
+    {
+      "id": "R1",
+      "reason": "Все 30 сценариев BEH-01…BEH-30 названы в scenarios: хотя бы одного критерия, и каждый критерий описывает наблюдаемый снаружи исход.",
+      "status": "pass"
+    },
+    {
+      "id": "R2",
+      "reason": "Каждое Must-FR покрыто критерием с явной границей «выполнено / не выполнено» через вердикт, код выхода и состояние файлов.",
+      "status": "pass"
+    },
+    {
+      "id": "R3",
+      "reason": "Критерии не вводят обязательств сверх требований и сценариев, но часть Must-критериев опирается на Should-требования, не названные в их traces:.",
+      "status": "pass"
+    },
+    {
+      "id": "R4",
+      "reason": "Все источники наблюдения внешние — вывод, код выхода, перечни и время изменения файлов, соединения и порты, справка, фикстура.",
+      "status": "pass"
+    }
+  ],
+  "edge": "acceptance-vs-requirements-behaviour",
+  "findings": [
+    {
+      "class": "minor",
+      "location": {
+        "lines": [
+          247,
+          249
+        ],
+        "path": "25-acceptance.md"
+      },
+      "rule_id": "R1",
+      "statement": "BEH-18, BEH-20, BEH-26 и BEH-30 покрыты единственным критерием AC-17, исключённым из порога приёмки: покрытие формально есть, но невыполнение этих сценариев закрытию воркстрима не мешает."
+    },
+    {
+      "class": "minor",
+      "location": {
+        "lines": [
+          200,
+          209
+        ],
+        "path": "25-acceptance.md"
+      },
+      "rule_id": "R3",
+      "statement": "AC-13 требует увидеть «одну команду установки PyYAML и один запуск скрипта» и отсутствие регулярных операций обслуживания — это приёмка NFR-12 (Should), тогда как traces: AC-13 называет только NFR-06 и NFR-08, из-за чего Should-обязательство попадает в порог приёмки."
+    },
+    {
+      "class": "minor",
+      "location": {
+        "lines": [
+          34,
+          45
+        ],
+        "path": "25-acceptance.md"
+      },
+      "rule_id": "R3",
+      "statement": "AC-01 (как и AC-02, AC-03, AC-07, AC-09) требует конкретных кодов выхода, чьё определение дано в FR-04 (Should), не указанном в traces: критерия, вопреки собственному утверждению документа, что всё требуемое названо в требовании из traces:."
+    },
+    {
+      "class": "minor",
+      "location": {
+        "lines": [
+          223,
+          233
+        ],
+        "path": "25-acceptance.md"
+      },
+      "rule_id": "R3",
+      "statement": "В AC-15 условие «при ошибке чтения любой записи expired напечатал список без неё вместо ошибки» не наблюдается в его единственном сценарии BEH-10 (где все 20 записей корректны); наблюдение даёт BEH-11…BEH-14, в scenarios: AC-15 не названные."
+    },
+    {
+      "class": "minor",
+      "location": {
+        "lines": [
+          290,
+          292
+        ],
+        "path": "25-acceptance.md"
+      },
+      "rule_id": "R4",
+      "statement": "Инвариант «Проверяемость снаружи» перечисляет источники наблюдения, но не включает список зависимостей проекта, который требует осмотреть AC-13; источник остаётся внешним артефактом, однако перечень в инварианте неполон."
+    }
+  ],
+  "finished_at": "2026-11-24T12:16:12.272201+00:00",
+  "node": "acceptance",
+  "result_key": "6901f666c1edeadf19d0f31b1381f1161c47a946d7fd3f62d38c2e0a5a23dc1a",
+  "reviewer": {
+    "effort": null,
+    "env_passthrough": [
+      "ANTHROPIC_BASE_URL",
+      "HOME",
+      "PATH",
+      "TMPDIR",
+      "USER"
+    ],
+    "harness": "claude",
+    "harness_version": "2.1.330 (Claude Code)",
+    "model": "claude-opus-5",
+    "model_id": null
+  },
+  "rules": {
+    "id": "acceptance-vs-requirements-behaviour",
+    "items": [
+      [
+        "R1",
+        "Каждый сценарий BEH покрыт хотя бы одним критерием приёмки (AC-*) с наблюдаемым исходом."
+      ],
+      [
+        "R2",
+        "Каждый Must-FR имеет критерий, различающий «выполнено» и «не выполнено»."
+      ],
+      [
+        "R3",
+        "Критерий не утверждает больше, чем даёт сценарий: нет обязательств вне требований."
+      ],
+      [
+        "R4",
+        "Критерий выполним без доступа к внутреннему состоянию."
+      ]
+    ]
+  },
+  "schema_version": 1,
+  "started_at": "2026-11-24T12:12:11.660616+00:00",
+  "subject": [
+    {
+      "path": "25-acceptance.md",
+      "role": "subject",
+      "sha256": "372f1ce7a2b05361b3ba96c53738e698cce1f72fed2efa1f527714c05f281189",
+      "size": 40994
+    }
+  ],
+  "verdict": "PASS",
+  "wave": 4
+}

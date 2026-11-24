@@ -1,7 +1,7 @@
 ---
 schema: 1
 spec_stage: charter
-status: approval_pending
+status: approved
 owner_role: product
 traces_to:
   - discovery-brief
@@ -11,6 +11,8 @@ upstream_hashes:
   discovery-customer: c31eb622a7becfdeb4e106bbb2b4e05e87389818
 approved_content_hash: 92522ca1755eeca9ad7fe163e70a43c0307f3b03
 version: 2
+approved_at: '2026-11-24T11:23:35Z'
+approved_by: ai-prosto
 ---
 
 # Charter — Реестр прав агентов (локальный YAML + CLI на Python)

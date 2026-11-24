@@ -15,6 +15,9 @@ USAGE = (
     "python permissions_cli.py expired [--file ПУТЬ]"
 )
 
+# Подсказка для сообщений об ошибке: без имён файлов инструмента.
+USAGE_HINT = "ожидается: check <агент> <действие> <ресурс> [--file ПУТЬ] или expired [--file ПУТЬ]"
+
 HELP = f"""\
 {USAGE}
 
@@ -144,11 +147,15 @@ def load_registry(path: str) -> list[Permission]:
     try:
         text = Path(path).read_text(encoding="utf-8")
     except FileNotFoundError:
-        raise RegistryError(f"{path}: файла реестра нет") from None
-    except (OSError, UnicodeDecodeError) as failure:
+        shown = str(Path.cwd() / path) if path == DEFAULT_FILE else path
+        raise RegistryError(f"файл реестра не найден: {shown}") from None
+    except UnicodeDecodeError:
         raise RegistryError(
-            f"{path}: файл не читается ({type(failure).__name__})"
+            f"{path}: файл не читается (содержимое не в кодировке UTF-8)"
         ) from None
+    except OSError as failure:
+        reason = failure.strerror or "ошибка чтения"
+        raise RegistryError(f"{path}: файл не читается ({reason})") from None
     try:
         data = yaml.load(text, Loader=_RegistryLoader)
     except yaml.YAMLError as failure:
@@ -204,28 +211,34 @@ def parse_invocation(argv: list[str]) -> Invocation:
         if token == "--file":
             value = next(it, None)
             if value is None:
-                raise UsageError(f"ошибка вызова: у --file нет значения. {USAGE}")
+                raise UsageError(f"ошибка вызова: у --file нет значения. {USAGE_HINT}")
             file = value
         elif token.startswith("--file="):
             file = token.split("=", 1)[1]
         elif token.startswith("-") and token != "-":
-            raise UsageError(f"ошибка вызова: неизвестный параметр {token}. {USAGE}")
+            raise UsageError(
+                f"ошибка вызова: неизвестный параметр {token}. {USAGE_HINT}"
+            )
         else:
             positional.append(token)
     if not positional:
-        raise UsageError(f"ошибка вызова: не указана команда. {USAGE}")
+        raise UsageError(f"ошибка вызова: не указана команда. {USAGE_HINT}")
     command, args = positional[0], tuple(positional[1:])
     if command == "check":
         if len(args) != 3:
             raise UsageError(
                 f"ошибка вызова: check принимает три аргумента (агент, действие, ресурс), "
-                f"получено {len(args)}. {USAGE}"
+                f"получено {len(args)}. {USAGE_HINT}"
             )
     elif command == "expired":
         if args:
-            raise UsageError(f"ошибка вызова: expired не принимает аргументов. {USAGE}")
+            raise UsageError(
+                f"ошибка вызова: expired не принимает аргументов. {USAGE_HINT}"
+            )
     else:
-        raise UsageError(f"ошибка вызова: неизвестная команда {command!r}. {USAGE}")
+        raise UsageError(
+            f"ошибка вызова: неизвестная команда {command!r}. {USAGE_HINT}"
+        )
     return Invocation(command=command, args=args, file=file)
 
 

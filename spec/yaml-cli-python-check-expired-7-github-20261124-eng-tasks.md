@@ -328,7 +328,7 @@ Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-
 **Traces to:** [FR-01], [FR-04], [FR-06], [NFR-13], [FR-08], [NFR-04], [FR-02], [FR-03]
 
 ### TASK-006: Отсутствие файла, нечитаемый файл и форма отказа
-P2 | TODO   Est: 0.5d
+P2 | 🔄 IN_PROGRESS   Est: 0.5d
 
 Реализовать сценарии BEH-15, BEH-16, BEH-17 (DT-06, группа guarantees).
 Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-decomposition.md#DT-06

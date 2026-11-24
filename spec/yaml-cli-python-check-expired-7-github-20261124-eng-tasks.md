@@ -377,7 +377,7 @@ Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-
 **Traces to:** [FR-02], [NFR-01], [NFR-03], [FR-06], [NFR-10], [FR-08]
 
 ### TASK-009: Порог отклика на реестре из 1000 записей
-P2 | TODO   Est: 0.5d
+P2 | 🔄 IN_PROGRESS   Est: 0.5d
 
 Реализовать сценарии BEH-26 (DT-09, группа guarantees).
 Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-decomposition.md#DT-09

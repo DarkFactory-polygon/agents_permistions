@@ -1,0 +1,138 @@
+{
+  "absence": [],
+  "attempt_id": "65741370fd7e456ab10ad9fa6e330c46",
+  "bases": [
+    {
+      "path": "20-design.md",
+      "role": "design",
+      "sha256": "14889d86320bb51c2ec2dad2445f292b01cd3f4a91605fdcdf152680704e1017",
+      "size": 48869
+    },
+    {
+      "path": "25-acceptance.md",
+      "role": "acceptance",
+      "sha256": "4b2c476ba38b038788dc8b26a8ade1674b231dc87e60ec052684f5803c4ed209",
+      "size": 41131
+    }
+  ],
+  "check_identity": "c139e5da324956c0b164f16ede2b8d0448bf6b6444849eeaeff2a2e9bc695c9b",
+  "context": {
+    "estimate_tokens": 35959,
+    "limit_tokens": 120000,
+    "method": "utf8-bytes/4",
+    "reserve_tokens": 8000,
+    "size": 143838,
+    "unit": "utf8-bytes"
+  },
+  "criteria": [
+    {
+      "id": "R1",
+      "reason": "каждая из двенадцати задач имеет delivers с sources на резолюцию дизайна Q-06…Q-10 или критерий AC-01…AC-17",
+      "status": "pass"
+    },
+    {
+      "id": "R2",
+      "reason": "все 17 критериев приёмки закрыты хотя бы одним DT через sources и covered_by",
+      "status": "pass"
+    },
+    {
+      "id": "R3",
+      "reason": "все 44 delivers сводятся к обязательствам дизайна или приёмки, решения оснований несены ссылкой и не переоткрыты",
+      "status": "pass"
+    },
+    {
+      "id": "R4",
+      "reason": "рёбра depends_on ацикличны и совместимы с механикой дизайна, который порядок шагов декомпозиции не фиксирует",
+      "status": "pass"
+    }
+  ],
+  "edge": "decomposition-vs-design-acceptance",
+  "findings": [
+    {
+      "class": "minor",
+      "location": {
+        "lines": [
+          260,
+          263
+        ],
+        "path": "30-decomposition.md"
+      },
+      "rule_id": "R1",
+      "statement": "DEL-31 ссылается на design#Q-08, хотя список разрешённых импортов — решение D-16 дизайна (Q-08 резолюцирует средство разбора и отказ от ограничений входа); обязательство в основании есть, указатель неточен."
+    },
+    {
+      "class": "minor",
+      "location": {
+        "lines": [
+          286,
+          290
+        ],
+        "path": "30-decomposition.md"
+      },
+      "rule_id": "R2",
+      "statement": "Дополнительный наблюдаемый признак acceptance#AC-11 — «смена часового пояса без смены локальной календарной даты вывод не меняет» — не закрыт ни одним delivers: DEL-34 покрывает только переход на следующий календарный день, DEL-25 и DEL-32 — одинаковость вызовов внутри одних суток."
+    },
+    {
+      "class": "minor",
+      "location": {
+        "lines": [
+          447,
+          465
+        ],
+        "path": "30-decomposition.md"
+      },
+      "rule_id": "R4",
+      "statement": "Раздел «Порядок и параллельность» объявляет «Пять шагов исполнения», но перечисляет шесть пунктов (DT-01, DT-02, группа commands, DT-05, группа guarantees, DT-12) — расхождение в описании порядка исполнения."
+    }
+  ],
+  "finished_at": "2026-11-24T12:34:42.175432+00:00",
+  "node": "decomposition",
+  "result_key": "140567c5fbdbc5dcb60616539194a72beba56d2b5be0b71faab833b3c1883083",
+  "reviewer": {
+    "effort": null,
+    "env_passthrough": [
+      "ANTHROPIC_BASE_URL",
+      "HOME",
+      "PATH",
+      "TMPDIR",
+      "USER"
+    ],
+    "harness": "claude",
+    "harness_version": "2.1.330 (Claude Code)",
+    "model": "claude-opus-5",
+    "model_id": null
+  },
+  "rules": {
+    "id": "decomposition-vs-design-acceptance",
+    "items": [
+      [
+        "R1",
+        "Каждый DT ссылается на решение дизайна или критерий приёмки, который он реализует."
+      ],
+      [
+        "R2",
+        "Каждый критерий приёмки закрыт хотя бы одним DT (сценарии или delivers)."
+      ],
+      [
+        "R3",
+        "DT не вводит обязательств, отсутствующих в дизайне и приёмке."
+      ],
+      [
+        "R4",
+        "Зависимости DT совместимы с порядком, который задаёт дизайн."
+      ]
+    ]
+  },
+  "schema_version": 1,
+  "started_at": "2026-11-24T12:30:40.481321+00:00",
+  "subject": [
+    {
+      "path": "30-decomposition.md",
+      "role": "subject",
+      "sha256": "30353f9f3275063cdd20a789964692cae124b687394a8f31685d79da185b92c8",
+      "size": 49252
+    }
+  ],
+  "verdict": "PASS",
+  "wave": 5
+}

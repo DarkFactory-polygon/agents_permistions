@@ -345,7 +345,7 @@ Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-
 **Traces to:** [FR-03], [FR-05], [FR-09], [NFR-04], [NFR-13]
 
 ### TASK-007: Работа без сети
-P2 | TODO   Est: 0.5d
+P2 | 🔄 IN_PROGRESS   Est: 0.5d
 
 Реализовать сценарии BEH-24 (DT-07, группа guarantees).
 Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-decomposition.md#DT-07

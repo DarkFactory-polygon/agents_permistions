@@ -1,7 +1,6 @@
 """Реестр прав агентов: проверка права и список истекающих прав."""
 
 import datetime
-import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -52,7 +51,14 @@ class RegistryError(Exception):
 
 TEXT_FIELDS = ("agent", "resource", "action", "granted_by")
 REQUIRED_FIELDS = ("agent", "resource", "action", "granted_by", "until")
-DATE_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
+
+
+def _is_iso_date_shape(value: str) -> bool:
+    """Строго YYYY-MM-DD: четыре цифры, дефис, две цифры, дефис, две цифры (только ASCII)."""
+    if len(value) != 10 or value[4] != "-" or value[7] != "-":
+        return False
+    digits = value[:4] + value[5:7] + value[8:]
+    return all(ch in "0123456789" for ch in digits)
 
 
 @dataclass(frozen=True)
@@ -108,7 +114,7 @@ def _parse_until(value: object, where: str) -> datetime.date:
         )
     if isinstance(value, datetime.date):
         return value
-    if isinstance(value, str) and DATE_RE.fullmatch(value):
+    if isinstance(value, str) and _is_iso_date_shape(value):
         try:
             return datetime.date.fromisoformat(value)
         except ValueError:

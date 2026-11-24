@@ -1,0 +1,13 @@
+[project]
+name = "permissions-cli"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "pyyaml>=6.0.4",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "ruff>=0.17.6",
+]

@@ -1,7 +1,7 @@
 ---
 schema: 1
 spec_stage: requirements
-status: approval_pending
+status: approved
 owner_role: product
 traces_to:
   - charter
@@ -9,6 +9,8 @@ upstream_hashes:
   charter: "38d197c6e5d0f3ff82101284fdf5ece33c4f85cb"
 approved_content_hash: 4f9e74fbc6cc675cd5a253a320f43570345b7da5
 version: 2
+approved_at: '2026-11-24T11:36:39Z'
+approved_by: ai-prosto
 ---
 
 # Requirements — Реестр прав агентов (локальный YAML + CLI на Python)

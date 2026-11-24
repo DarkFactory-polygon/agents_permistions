@@ -307,7 +307,7 @@ Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-
 **Traces to:** [FR-02], [FR-08], [NFR-07], [FR-07], [NFR-13]
 
 ### TASK-005: Вердикты `check` и пустой реестр
-P2 | TODO   Est: 0.5d
+P2 | 🔄 IN_PROGRESS   Est: 0.5d
 
 Реализовать сценарии BEH-01, BEH-02, BEH-03, BEH-04, BEH-05, BEH-06, BEH-07 (DT-05, группа solo).
 Source: workstreams/yaml-cli-python-check-expired-7-github-20261124-eng/spec/30-decomposition.md#DT-05
